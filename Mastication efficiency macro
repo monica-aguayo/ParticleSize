@@ -1,7 +1,7 @@
 ' Monica Aguayo
 ' PhD candidate | Department of Food Physics | Wageningen University
 ' monica.aguayomendoza@wur.nl
-'
+' Original source: https://github.com/monica-aguayo/ParticleSize/
 ' Analysis files particle size Macro for Excel
 '
 
@@ -97,3 +97,4 @@ End With
 Set fd = Nothing
 
 End Sub
+' Original source: https://github.com/monica-aguayo/ParticleSize/
