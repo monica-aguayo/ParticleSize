@@ -5,50 +5,60 @@
 * 2016
 */
 // Get the files according to their name
-// Loops for date, first loop is for month
+// Loops for date, and image number
 // for (initialization; condition; increment) { functions to execute }
-for (month=10; month<13; month+=1) {
-  // Second loop is for day
-  for (day=18; day<22; day+=1) {
-    // Third loop for image number
-    for (thirddigit=0; thirddigit<10; thirddigit+=1) {
-      // Fourth loop for image number
-      for (fourthdigit=0; fourthdigit<10; fourthdigit+=1) {
-        // Path to the images
-        picture="C:\\Users\\Monica\\Desktop\\FOP particles\\IMG_2016"+month+""+day+"_00"+thirddigit+""+fourthdigit+".jpg";
-        /* Conditional to verify that the image exists. If image exists, then it executes
-           the whole analysis, otherwise the loop contnues with the next one
-        */
-        if (File.exists(picture)) {
-          open(picture);
-          // Set scale
-          run("Set Scale...", "distance=1380 known=125 pixel=1 unit=mm");
-          // Cut are of the image
-          makeRectangle(220, 1008, 1380, 1396);
-          run("Crop");
-          // Image processing
-          run("Original Scale");
-          run("Brightness/Contrast...");
-          run("Enhance Contrast", "saturated=0.35");
-          run("Apply LUT");
-          setAutoThreshold("Default dark");
-          //run("Threshold...");
-          setThreshold(180, 255);
-          run("Convert to Mask");
-          run("Erode");
-          run("Dilate");
-          run("Fill Holes");
-          run("Remove Outliers...", "radius=10 threshold=50 which=Dark");
-          // Set measurements to obtain from the image
-          run("Set Measurements...", "area shape feret's limit redirect=None decimal=3");
-          // Analyze particles
-          run("Analyze Particles...", "size=0-Infinity circularity=0.00-1.00 show=Nothing display exclude include");
-          // Save results into a file
-          resultfile="C:\\Users\\Monica\\Desktop\\FOP particles\\Results\\IMG_2016"+month+""+day+"_00"+thirddigit+""+fourthdigit+".xls";
-          saveAs("Text", resultfile);
-          selectWindow("Results");
-          run("Close");
-          run("Close");
+// Loop for year
+for (year=2016; year<2018; year+=1) {
+  // Loop for first digit month
+  for (fmonth=0; fmonth<2; fmonth+=1) {
+    // Loop for second digit month
+    for (smonth=0; smonth<10; smonth+=1) {
+      // Loop for first digit of the day
+      for (fday=0; fday<4; fday+=1) {
+        // Loop for second digit of the day
+        for (sday=0; sday<10; sday+=1) {
+          // Loop for third digit of image number
+          for (thirddigit=0; thirddigit<10; thirddigit+=1) {
+            // Loop for fourth digit of image number
+            for (fourthdigit=0; fourthdigit<10; fourthdigit+=1) {
+              // Path to the images
+              picture="C:\\Users\\Monica\\Desktop\\FOP particles\\IMG_"+year+""+fmonth+""+smonth+""+fday+""+sday+"_00"+thirddigit+""+fourthdigit+".jpg";
+              /* Conditional to verify that the image exists. If image exists, then it executes
+              the whole analysis, otherwise the loop contnues with the next one
+              */
+              if (File.exists(picture)) {
+                open(picture);
+                // Set scale
+                run("Set Scale...", "distance=586 known=50 pixel=1 unit=mm");
+                // Cut are of the image
+                makeRectangle(220, 1008, 1380, 1396);
+                run("Crop");
+                // Image processing
+                run("Original Scale");
+                run("Brightness/Contrast...");
+                run("Enhance Contrast", "saturated=0.35");
+                run("Apply LUT");
+                setAutoThreshold("Default dark");
+                //run("Threshold...");
+                setThreshold(180, 255);
+                run("Convert to Mask");
+                run("Erode");
+                run("Dilate");
+                run("Fill Holes");
+                run("Remove Outliers...", "radius=10 threshold=50 which=Dark");
+                // Set measurements to obtain from the image
+                run("Set Measurements...", "area shape feret's limit redirect=None decimal=3");
+                // Analyze particles
+                run("Analyze Particles...", "size=0-Infinity circularity=0.00-1.00 show=Nothing display exclude include");
+                // Save results into a file
+                resultfile="C:\\Users\\Monica\\Desktop\\FOP particles\\Results\\IMG_"+year+""+fmonth+""+smonth+""+fday+""+sday+"_00"+thirddigit+""+fourthdigit+".xls";
+                saveAs("Text", resultfile);
+                selectWindow("Results");
+                run("Close");
+                run("Close");
+              }
+            }
+          }
         }
       }
     }
