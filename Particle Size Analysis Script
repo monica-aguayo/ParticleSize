@@ -3,6 +3,7 @@
 * Monica Aguayo, Wageningen University
 * monica.aguayomendoza@wur.nl
 * 2016
+* https://github.com/monica-aguayo/ParticleSize/
 */
 // Get the files according to their name
 // Loops for date, and image number
@@ -64,3 +65,4 @@ for (year=2016; year<2018; year+=1) {
     }
   }
 }
+* Original source: https://github.com/monica-aguayo/ParticleSize/
