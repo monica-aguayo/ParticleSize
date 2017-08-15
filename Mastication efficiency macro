@@ -1,0 +1,99 @@
+' Monica Aguayo
+' PhD candidate | Department of Food Physics | Wageningen University
+' monica.aguayomendoza@wur.nl
+'
+' Analysis files particle size Macro for Excel
+'
+
+Sub Analysisfilesparticlesize()
+
+Dim i As String
+Dim n As String
+Dim m As String
+
+i = 1
+
+Dim fd As FileDialog
+Dim SelectedItem As Variant
+
+Set fd = Application.FileDialog(msoFileDialogFilePicker)
+With fd
+
+.AllowMultiSelect = True
+If .Show = -1 Then
+
+For Each SelectedItem In .SelectedItems
+
+Workbooks.Open (SelectedItem)
+'do something with activeworkbook
+
+
+i = i + 1
+n = WorksheetFunction.CountA(Columns(1))
+m = n + 2
+Number = n - 1
+Workbookname = ActiveSheet.Name
+
+    Columns("C:C").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    'calculate diameter
+    Range("C2").Select
+    ActiveCell.FormulaR1C1 = "=2*(SQRT(RC[-1]/PI()))"
+    Range("C2").Select
+    Selection.AutoFill Destination:=Range("C2:C" & Cells(Rows.Count, "A").End(xlUp).Row)
+    'calculate n>3.5
+    Range("D2").Value = Application.WorksheetFunction.CountIf(Range("C:C"), ">3.5")
+    'calculate ntotal
+    Range("E2").Value = Application.WorksheetFunction.CountIf(Range("C:C"), ">0")
+    'calculate ratio
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "=RC[-2]/RC[-1]"
+    'image name
+    ActiveSheet.Range("G2").Select
+    ActiveCell.FormulaR1C1 = Workbookname
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "diameter (mm)"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "n>3.5"
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "ntotal"
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "ratio"
+    Range("G1").Select
+    ActiveCell.FormulaR1C1 = "image name"
+    ActiveSheet.Range("D2:G2").Select
+    Selection.Copy
+    Range("D2:G2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    ActiveSheet.Range("D2:G2").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Windows("macrotoanalysedocs.xlsm").Activate
+    ActiveWindow.WindowState = xlNormal
+    ActiveWindow.WindowState = xlNormal
+    Sheets("Sheet1").Select
+        
+Dim FirstBlankCell As Range
+ Set FirstBlankCell = Range("B" & Rows.Count).End(xlUp).Offset(1, 0)
+ FirstBlankCell.Activate
+ 
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Application.CutCopyMode = False
+Workbooks(Workbookname + ".XLS").Close SaveChanges:=False
+
+'end for one file
+
+
+Next SelectedItem
+End If
+End With
+
+Set fd = Nothing
+
+End Sub
